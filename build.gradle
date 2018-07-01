@@ -1,15 +1,30 @@
-group 'com.mehran.main'
-version '1.0-SNAPSHOT'
-
 apply plugin: 'java'
+apply plugin: 'eclipse'
 
-sourceCompatibility = 1.8
+version = '1.0'
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
-repositories {
-    mavenCentral()
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',  
+        	'Implementation-Version': version,
+        	'Main-Class': 'com.mehran.main.Main'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
 
+//Get dependencies from Maven central repository
+repositories {
+   flatDir {
+       dirs 'libs'
+   }
+}
+
+//Project dependencies
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile 'uk.ac.gate.plugins:stanford-corenlp:8.5.1'
+	compile name: 'tmt-0.4.0'
 }

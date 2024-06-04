@@ -27,4 +27,5 @@ repositories {
 //Project dependencies
 dependencies {
 	compile name: 'tmt-0.4.0'
+    compile name: 'stanford-english-corenlp-models'
 }
